@@ -4,7 +4,7 @@
 
    ```bash copy
    git clone https://github.com/perceptui/vite-react-tailwind-template.git
-   cd vite-react-tailwind-template
+   cd Demand-Forecasting-Frontend
     ```
 
 2. **Install dependencies:**
