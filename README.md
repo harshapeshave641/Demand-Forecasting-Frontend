@@ -3,7 +3,7 @@
 1. **Clone the repository:**
 
    ```bash copy
-   git clone https://github.com/perceptui/vite-react-tailwind-template.git
+   git clone https://github.com/harshapeshave641/Demand-Forecasting-Frontend.git
    cd Demand-Forecasting-Frontend
     ```
 
