@@ -1,78 +1,184 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif; /* Set Poppins as the default font */
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.container {
+  display: flex;
+  height: 100vh;
 }
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-  }
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
+.form-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  background-color: white;
+  margin-left: 80px;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+h2 {
+  font-weight: 500; /* Medium Bold */
+  font-size: 32px;
+  margin-bottom: 50px;
+}
+
+.welcome-back{
+  font-weight: 500; /* Medium Bold */
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.credentials-text {
+  
+  margin-bottom: 50px; /* Added spacing */
+  font-weight: 500; /* Medium Bold */
+  font-size: 16px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 500; /* Medium Bold */
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: 'Poppins', sans-serif; /* Ensure inputs use Poppins */
+}
+
+.password-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.forgot-password {
+  color: #4a5f2a;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 160px;
+}
+
+.terms {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 8px;
+}
+
+
+
+.terms input {
+  width: 16px;
+  height: 16px;
+}
+
+.terms a {
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signup-button {
+  width: 80%;
+  padding: 10px;
+  background-color: #4a5f2a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  font-family: 'Poppins', sans-serif; /* Ensure buttons use Poppins */
+}
+
+.or-divider {
+  display: flex;
+  width: 80%;
+  align-items: center;
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 50px;
+  margin-top: 30px;
+}
+
+.or-divider::before,
+.or-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.or-divider::before {
+  margin-right: 10px;
+}
+
+.or-divider::after {
+  margin-left: 10px;
+}
+
+.social-login {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+}
+
+.google-login,
+.apple-login {
+  
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  width: 48%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: white;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif; /* Ensure social buttons use Poppins */
+}
+
+.google-login img,
+.apple-login img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.signin-text {
+  text-align: left;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.signin-text a {
+  color: blue;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Plant Image Background */
+.image-container {
+  flex: 1;
+  border-radius: 20px;
+ 
+  background: url("/plant.png") no-repeat center center/cover;
 }
