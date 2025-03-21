@@ -32,7 +32,7 @@ const Dashboard = () => {
   const [selectedQuarter, setSelectedQuarter] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const years = [2021, 2022, 2023, 2024];
+  const years = [2018,2019,2020,2021, 2022, 2023, 2024];
 
   // Generate random data for charts and tables
   const generateRandomData = (length) => {
@@ -199,10 +199,10 @@ const Dashboard = () => {
                 </div>
 
                 {/* Year Summary (Optional) */}
-                <div className="mt-6 border-t border-gray-200 pt-4">
+                {/* <div className="mt-6 border-t border-gray-200 pt-4">
                   <p className="text-sm text-gray-600">Total Sales: <span className="font-semibold text-indigo-700">${(Math.random() * 100000).toLocaleString()}</span></p>
                   <p className="text-sm text-gray-600">Top Product: <span className="font-semibold text-indigo-700">Product A</span></p>
-                </div>
+                </div> */}
               </div>
             ))}
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Papa from "papaparse";
 import Modal from "../components/Modal"; // Import modal component
@@ -9,17 +9,64 @@ const UploadQuarterResults = () => {
   const [csvData, setCsvData] = useState(null);
   const [fileName, setFileName] = useState("");
   const [modal, setModal] = useState({ open: false, message: "", type: "" });
-
-  // New State for Year & Quarter Ranges
   const [startYear, setStartYear] = useState("");
   const [endYear, setEndYear] = useState("");
   const [startQuarter, setStartQuarter] = useState("");
   const [endQuarter, setEndQuarter] = useState("");
-
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [forecastData, setForecastData] = useState(null);
+  const [forecastModalOpen, setForecastModalOpen] = useState(false);
+  const [forecastMessage,setforecastMessage]=useState(null)
   const years = [2021, 2022, 2023, 2024]; // Hardcoded list of years
   const quarters = ["Q1", "Q2", "Q3", "Q4"];
 
-  // Handles file selection & parsing CSV
+  const handleDownload = async (filename) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`http://localhost:5000/file/download/${filename}`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = filename; // Use filename for download
+        link.click();
+      } else {
+        setModal({ open: true, message: "Failed to download file", type: "danger" });
+      }
+    } catch (error) {
+      setModal({ open: true, message: "Server error, try again!", type: "danger" });
+    }
+  };
+
+  useEffect(() => {
+    const fetchUploadedFiles = async () => {
+      const token = localStorage.getItem("token");
+
+      try {
+        const response = await fetch("http://localhost:5000/file/files/meta", {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          setUploadedFiles(data);
+        } else {
+          setModal({ open: true, message: data.message || "Failed to fetch files", type: "danger" });
+        }
+      } catch (error) {
+        setModal({ open: true, message: "Server error, try again!", type: "danger" });
+      }
+    };
+
+    fetchUploadedFiles();
+  }, []);
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -34,7 +81,24 @@ const UploadQuarterResults = () => {
     }
   };
 
-  // Handles File Upload
+  const extractNextQuarterAndYear = (filename) => {
+    const parts = filename.split("_");
+    const lastQuarter = parseInt(parts[3].replace("Q", ""), 10);
+    const lastYear = parseInt(parts[4], 10);
+
+    let nextQuarter = lastQuarter + 1;
+    let nextYear = lastYear;
+
+    if (nextQuarter > 4) {
+        nextQuarter = 1;
+        nextYear += 1;
+    }
+
+    return { nextQuarter, nextYear };
+};
+
+
+
   const handleUpload = async () => {
     if (!selectedFile) {
       setModal({ open: true, message: "No file selected!", type: "danger" });
@@ -46,7 +110,7 @@ const UploadQuarterResults = () => {
       return;
     }
 
-    const token = localStorage.getItem("token"); 
+    const token = localStorage.getItem("token");
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("startYear", startYear);
@@ -57,7 +121,7 @@ const UploadQuarterResults = () => {
     try {
       const response = await fetch("http://localhost:5000/file/upload", {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` }, 
+        headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
 
@@ -68,6 +132,36 @@ const UploadQuarterResults = () => {
         setFileName("");
       } else {
         setModal({ open: true, message: data.message || "Upload failed", type: "danger" });
+      }
+    } catch (error) {
+      setModal({ open: true, message: "Server error, try again!", type: "danger" });
+    }
+  };
+
+  const handleForecastClick = async (filename) => {
+    const token = localStorage.getItem("token");
+    const { nextQuarter, nextYear } = extractNextQuarterAndYear(filename);
+    try {
+      const response = await fetch("http://localhost:5000/forecast/upload-from-gridfs", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+            year: nextYear,
+            quarter: nextQuarter,
+            fileName: filename,
+        }),
+    });
+
+      const data = await response.json();
+      if (response.ok) {
+        setforecastMessage(data.message)
+        setForecastData(data.forecast);
+        setForecastModalOpen(true);
+      } else {
+        setModal({ open: true, message: data.error || "Failed to fetch forecasts", type: "danger" });
       }
     } catch (error) {
       setModal({ open: true, message: "Server error, try again!", type: "danger" });
@@ -165,9 +259,71 @@ const UploadQuarterResults = () => {
         <button className="bg-indigo-600 text-white px-6 py-2.5 rounded-lg hover:bg-indigo-700" onClick={handleUpload}>
           Upload Results
         </button>
+
+        {/* Uploaded Files Table */}
+        <div className="mt-6">
+          <h4 className="text-lg font-semibold text-gray-700 mb-4">Uploaded Files</h4>
+          {uploadedFiles.length === 0 ? (
+            <p className="text-sm text-gray-600">No files uploaded yet.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full border text-sm mt-2">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="border px-2 py-1 text-left">File Name</th>
+                    <th className="border px-2 py-1 text-left">Start Quarter</th>
+                    <th className="border px-2 py-1 text-left">Start Year</th>
+                    <th className="border px-2 py-1 text-left">End Quarter</th>
+                    <th className="border px-2 py-1 text-left">End Year</th>
+                    <th className="border px-2 py-1 text-left">Number of Quarters</th>
+                    <th className="border px-2 py-1 text-left">Uploaded At</th>
+                    <th className="border px-2 py-1 text-left">Forecasts</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {uploadedFiles.map((file, idx) => (
+                    <tr key={idx} className="border">
+                      <td className="border px-2 py-1">{file.filename}</td>
+                      <td className="border px-2 py-1">{file.metadata.startQuarter}</td>
+                      <td className="border px-2 py-1">{file.metadata.startYear}</td>
+                      <td className="border px-2 py-1">{file.metadata.endQuarter}</td>
+                      <td className="border px-2 py-1">{file.metadata.endYear}</td>
+                      <td className="border px-2 py-1">{file.metadata.noOfQuarters}</td>
+                      <td className="border px-2 py-1">
+                        {new Date(file.uploadDate).toLocaleString()}
+                      </td>
+                      <td className="border px-2 py-1">
+                        <button
+                          onClick={() => handleForecastClick(file.filename)}
+                          className="text-indigo-600 hover:text-indigo-800"
+                        >
+                          Available forecasts
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Modal */}
+      {/* Modal for Forecast Data */}
+      {forecastModalOpen && (
+        <Modal
+          message={
+            <div>
+              <h4 className="text-lg font-semibold mb-4">{forecastMessage}</h4>
+              
+            </div>
+          }
+          type="info"
+          onClose={() => setForecastModalOpen(false)}
+        />
+      )}
+
+      {/* Modal for General Messages */}
       {modal.open && <Modal message={modal.message} type={modal.type} onClose={() => setModal({ open: false, message: "", type: "" })} />}
     </div>
   );
