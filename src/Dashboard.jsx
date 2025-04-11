@@ -213,52 +213,16 @@ const Dashboard = () => {
           {/* Select Year & Quarter for Prediction */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Select Year & Quarter to Predict
+              
             </label>
             <div className="flex space-x-4">
               {/* Year Dropdown */}
-              <select
-                className="block w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                onChange={(e) => {
-                    console.log("Year selected:", e.target.value);
-                    setSelectedYear(Number(e.target.value));
-                  }}
-                   // Ensure it's stored as a number
-                value={selectedYear || ""}
-              >
-                <option value="" disabled>Select Year</option>
-                {years.map((year) => (
-                  <option key={year} value={year}>{year}</option>
-                ))}
-              </select>
-
-              {/* Quarter Dropdown */}
-              <select
-                className="block w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                onChange={(e) => setSelectedQuarter(e.target.value)}
-                value={selectedQuarter || ""}
-              >
-                <option value="" disabled>Select Quarter</option>
-                {["Q1", "Q2", "Q3", "Q4"].map((quarter) => (
-                  <option key={quarter} value={quarter}>{quarter}</option>
-                ))}
-              </select>
+             
             </div>
           </div>
 
           {/* Predict Button */}
-          <button
-            className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 text-sm rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all"
-            onClick={() => {
-              if (selectedYear && selectedQuarter) {
-                alert(`Predicting for ${selectedYear} - ${selectedQuarter}`);
-              } else {
-                alert("Please select a year and quarter.");
-              }
-            }}
-          >
-            Predict Next Quarter
-          </button>
+          
         </div>
       </div>
 
