@@ -4,6 +4,7 @@ import SignUp from "./Sign-Up";
 import SignIn from "./Sign-In";
 import Dashboard from "./Dashboard"; // Assuming you have a Dashboard component
 import UploadQuarterResults from "./pages/UploadQuarterlyResults";
+import ProductView from "./pages/ProductView";
 import "./index.css";
 import Forecasts from "./pages/Forecasts";
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/dashboard" element={token ? <Dashboard /> : <Navigate to="/signin" />} />
         <Route path="/upload" element={token ? <UploadQuarterResults /> : <Navigate to="/signin" />} />
         <Route path="/forecasts" element={token ? <Forecasts /> : <Navigate to="/signin" />} />
+        <Route path="/products" element={token ? <ProductView /> : <Navigate to="/signin" />} />
       </Routes>
     </Router>
   );

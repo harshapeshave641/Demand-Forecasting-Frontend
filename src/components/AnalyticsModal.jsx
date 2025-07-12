@@ -7,7 +7,7 @@ const AnalyticsModal = ({ isOpen, closeModal, quarter, year }) => {
 
   useEffect(() => {
     if (isOpen) {
-        fetch(`https://demandforecast-a0efcfcvc7bncdgj.centralindia-01.azurewebsites.net/analytics/${year}/${quarter}`, {
+        fetch(`http://localhost:5000/analytics/${year}/${quarter}`, {
             method: "GET",
             headers: {
               "Authorization": `Bearer ${localStorage.getItem('token')}`, 

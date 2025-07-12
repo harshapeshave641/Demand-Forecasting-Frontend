@@ -32,7 +32,7 @@ const Dashboard = () => {
   const [selectedQuarter, setSelectedQuarter] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const years = [2018,2019,2020,2021, 2022, 2023, 2024];
+  const years = [2018, 2019, 2020, 2021, 2022, 2023, 2024];
 
   // Generate random data for charts and tables
   const generateRandomData = (length) => {
@@ -47,8 +47,8 @@ const Dashboard = () => {
       {
         label: "Sales",
         data: generateRandomData(12),
-        backgroundColor: "rgba(79, 70, 229, 0.8)",
-        borderColor: "rgba(79, 70, 229, 1)",
+        backgroundColor: "rgba(0, 114, 206, 0.8)", // Walmart blue
+        borderColor: "rgba(0, 114, 206, 1)",
         borderWidth: 1,
       },
     ],
@@ -71,8 +71,8 @@ const Dashboard = () => {
   ];
 
   const handleYearClick = (year) => {
-    setSelectedYear(year); // Ensure year is stored properly
-    setSelectedQuarter(null); // Reset quarter when a new year is selected
+    setSelectedYear(year);
+    setSelectedQuarter(null);
     setIsModalOpen(true);
   };
 
@@ -87,45 +87,48 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
-      {/* Navbar */}
-      <nav className="bg-white shadow-md py-4 px-6">
+      {/* Navbar - Walmart Style */}
+      <nav className="bg-blue-600 shadow-md py-4 px-6">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <h1 
-            className="text-xl font-bold text-indigo-600 cursor-pointer" 
-            onClick={() => navigate("/")}
-          >
-            Demand Forecasting
-          </h1>
-          <ul className="flex space-x-6 text-sm">
+          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate("/")}>
+  <img
+    src="https://logos-world.net/wp-content/uploads/2021/11/Walmart-Symbol.png"
+    alt="Walmart Logo"
+    className="h-8 w-auto object-contain"
+  />
+  <h1 className="text-xl font-bold text-white">Walmart Inventory Analytics</h1>
+</div>
+
+          <ul className="flex space-x-6 text-sm text-white">
             <li>
-              <button onClick={() => navigate("/dashboard")} className="hover:text-indigo-600">
+              <button onClick={() => navigate("/dashboard")} className="hover:text-yellow-300 transition-colors">
                 Dashboard
               </button>
             </li>
             <li>
-              <button onClick={() => navigate("/upload")} className="hover:text-indigo-600">
+              <button onClick={() => navigate("/upload")} className="hover:text-yellow-300 transition-colors">
                 Upload Data
               </button>
             </li>
             <li>
-              <button onClick={() => navigate("/forecasts")} className="hover:text-indigo-600">
+              <button onClick={() => navigate("/forecasts")} className="hover:text-yellow-300 transition-colors">
                 Forecasts
               </button>
             </li>
             <li>
-              <button onClick={() => navigate("/settings")} className="hover:text-indigo-600">
-                Settings
+              <button onClick={() => navigate("/products")} className="hover:text-yellow-300 transition-colors">
+                Products
               </button>
             </li>
             <li>
               <button
                 onClick={() => {
-                  localStorage.removeItem("token"); // Remove token
-                  sessionStorage.removeItem("token"); // Also clear sessionStorage if used
-                  navigate("/signin"); // Redirect to login
+                  localStorage.removeItem("token");
+                  sessionStorage.removeItem("token");
+                  navigate("/signin");
                   window.location.reload()
                 }}
-                className="text-red-600 font-semibold hover:text-red-800"
+                className="font-semibold hover:text-yellow-300 transition-colors"
               >
                 Logout
               </button>
@@ -136,23 +139,23 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto p-6">
-        <h2 className="text-2xl font-semibold mb-6">Analytics Dashboard</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-blue-800">Inventory Analytics Dashboard</h2>
 
         {/* Year & Quarter Selection */}
         <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-4 text-gray-700">Select Year & Quarter</h3>
+          <h3 className="text-lg font-semibold mb-4 text-blue-700">Select Year & Quarter</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {years.map((year) => (
               <div
                 key={year}
-                className="bg-gradient-to-br from-indigo-50 to-purple-50 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-blue-100"
               >
                 {/* Year Header */}
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-xl font-bold text-indigo-700">{year}</h4>
+                <div className="flex items-center justify-between mb-4 border-b border-blue-100 pb-3">
+                  <h4 className="text-xl font-bold text-blue-600">{year}</h4>
                   <button
                     onClick={() => handleYearClick(year)}
-                    className="text-indigo-600 hover:text-indigo-700 transition-colors"
+                    className="text-blue-600 hover:text-yellow-500 transition-colors"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -172,17 +175,17 @@ const Dashboard = () => {
                 </div>
 
                 {/* Quarter Buttons */}
-                <div className="space-y-3">
+                <div className="space-y-3 mt-4">
                   {["Q1", "Q2", "Q3", "Q4"].map((quarter) => (
                     <button
                       key={quarter}
-                      onClick={() => {handleYearClick(year);handleQuarterClick(quarter)}}
-                      className="w-full flex items-center justify-between text-left text-sm text-gray-700 hover:bg-indigo-50 px-4 py-3 rounded-lg transition-all duration-200 hover:translate-x-2"
+                      onClick={() => {handleYearClick(year); handleQuarterClick(quarter)}}
+                      className="w-full flex items-center justify-between text-left text-sm text-gray-700 hover:bg-blue-50 px-4 py-2 rounded-md transition-all duration-200 border border-blue-100 hover:border-blue-300"
                     >
                       <span>{quarter}</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 text-indigo-600"
+                        className="h-4 w-4 text-blue-600"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -197,12 +200,6 @@ const Dashboard = () => {
                     </button>
                   ))}
                 </div>
-
-                {/* Year Summary (Optional) */}
-                {/* <div className="mt-6 border-t border-gray-200 pt-4">
-                  <p className="text-sm text-gray-600">Total Sales: <span className="font-semibold text-indigo-700">${(Math.random() * 100000).toLocaleString()}</span></p>
-                  <p className="text-sm text-gray-600">Top Product: <span className="font-semibold text-indigo-700">Product A</span></p>
-                </div> */}
               </div>
             ))}
           </div>
