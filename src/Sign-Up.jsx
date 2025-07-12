@@ -25,9 +25,50 @@ const SignUp = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    // ... (keep your existing submit logic)
-  };
+  e.preventDefault();
+
+  const { name, email, password, confirmPassword, agreed } = formData;
+
+  if (!name || !email || !password || !confirmPassword) {
+    return setModal({ show: true, message: "All fields are required.", type: "error" });
+  }
+
+  if (password !== confirmPassword) {
+    return setModal({ show: true, message: "Passwords do not match.", type: "error" });
+  }
+
+  if (!agreed) {
+    return setModal({ show: true, message: "You must agree to the terms.", type: "error" });
+  }
+
+  try {
+    const response = await fetch(
+      "https://demandforecast-a0efcfcvc7bncdgj.centralindia-01.azurewebsites.net/user/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ fullName:name, email, password }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Registration failed.");
+    }
+
+    setModal({ show: true, message: "Registration successful! Redirecting to login...", type: "success" });
+
+    setTimeout(() => {
+      navigate("/signin");
+    }, 2000);
+  } catch (error) {
+    setModal({ show: true, message: error.message, type: "error" });
+  }
+};
+
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row font-poppins bg-white">

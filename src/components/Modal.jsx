@@ -2,7 +2,7 @@ import React from "react";
 
 const Modal = ({ message, type, onClose }) => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
       <div
         className={`relative w-96 p-6 rounded-lg shadow-xl text-white transform transition-all duration-300 ${
           type === "danger" ? "bg-red-600" : "bg-green-600"
