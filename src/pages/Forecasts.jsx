@@ -18,7 +18,7 @@ const Forecasts = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/forecast/check-forecast?year=${parseInt(year)}&quarter=${parseInt(quarter)}`,
+        `https://demandforecast-a0efcfcvc7bncdgj.centralindia-01.azurewebsites.net/forecast/check-forecast?year=${parseInt(year)}&quarter=${parseInt(quarter)}`,
         {
           method: "GET",
           headers: {

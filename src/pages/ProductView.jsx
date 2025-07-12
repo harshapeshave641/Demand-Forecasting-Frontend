@@ -17,7 +17,7 @@ const ProductCatalog = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://localhost:5000/forecast/check-forecast?year=2022&quarter=3",
+          "https://demandforecast-a0efcfcvc7bncdgj.centralindia-01.azurewebsites.net/forecast/check-forecast?year=2022&quarter=3",
           {
             method: "GET",
             headers: {
@@ -61,14 +61,15 @@ const ProductCatalog = () => {
   }
   setModalOpen(true);
 };
-
+  const shopTypes = ["hardware","convenience","houseware", "supermarket", "department_store"];
+  const randomShop = shopTypes[Math.floor(Math.random() * shopTypes.length)];
   const fetchSuppliers = async (lat, lon, product) => {
   const radius = 3000; // meters
   console.log(`Fetching suppliers for ${product.sku} within ${radius}m of (${lat}, ${lon})`);
   const query = `
     [out:json];
     (
-      node["shop"="hardware"](around:${radius},${lat},${lon});
+      node["shop"="${randomShop}"](around:${radius},${lat},${lon});
     );
     out body;
     >;
@@ -124,9 +125,14 @@ const ProductCatalog = () => {
       {/* Navbar - Walmart Style */}
       <nav className="bg-blue-600 shadow-md py-4 px-6">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold text-white cursor-pointer" onClick={() => navigate("/")}>
-            Walmart Inventory Analytics
-          </h1>
+          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate("/")}>
+  <img
+    src="https://logos-world.net/wp-content/uploads/2021/11/Walmart-Symbol.png"
+    alt="Walmart Logo"
+    className="h-8 w-auto object-contain"
+  />
+  <h1 className="text-xl font-bold text-white">Walmart Inventory Analytics</h1>
+</div>
           <ul className="flex space-x-6 text-sm text-white">
             <li><button onClick={() => navigate("/dashboard")} className="hover:text-yellow-300 transition-colors">Dashboard</button></li>
             <li><button onClick={() => navigate("/products")} className="hover:text-yellow-300 transition-colors">Product Catalog</button></li>

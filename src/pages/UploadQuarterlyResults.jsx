@@ -24,7 +24,7 @@ const UploadQuarterResults = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:5000/file/download/${filename}`, {
+      const response = await fetch(`https://demandforecast-a0efcfcvc7bncdgj.centralindia-01.azurewebsites.net/file/download/${filename}`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -48,7 +48,7 @@ const UploadQuarterResults = () => {
       const token = localStorage.getItem("token");
 
       try {
-        const response = await fetch("http://localhost:5000/file/files/meta", {
+        const response = await fetch("https://demandforecast-a0efcfcvc7bncdgj.centralindia-01.azurewebsites.net/file/files/meta", {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -117,7 +117,7 @@ const UploadQuarterResults = () => {
     formData.append("endQuarter", endQuarter);
 
     try {
-      const response = await fetch("http://localhost:5000/file/upload", {
+      const response = await fetch("https://demandforecast-a0efcfcvc7bncdgj.centralindia-01.azurewebsites.net/file/upload", {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -140,7 +140,7 @@ const UploadQuarterResults = () => {
     const token = localStorage.getItem("token");
     const { nextQuarter, nextYear } = extractNextQuarterAndYear(filename);
     try {
-      const response = await fetch("http://localhost:5000/forecast/upload-from-gridfs", {
+      const response = await fetch("https://demandforecast-a0efcfcvc7bncdgj.centralindia-01.azurewebsites.net/forecast/upload-from-gridfs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
