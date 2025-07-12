@@ -299,11 +299,11 @@ const UploadQuarterResults = () => {
   return (
     <tr key={idx} className="border border-blue-200">
       <td className="border border-blue-200 px-2 py-1">{file.filename}</td>
-      <td className="border border-blue-200 px-2 py-1">{distributor}</td>
       <td className="border border-blue-200 px-2 py-1">{startQ}</td>
       <td className="border border-blue-200 px-2 py-1">{startY}</td>
       <td className="border border-blue-200 px-2 py-1">{endQ}</td>
       <td className="border border-blue-200 px-2 py-1">{endY}</td>
+      <td className="border border-blue-200 px-2 py-1">9</td>
       <td className="border border-blue-200 px-2 py-1">
         {new Date(file.uploadDate).toLocaleString()}
       </td>
